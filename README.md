@@ -112,6 +112,12 @@ python app.py
 
 Health check — confirms the server is up and artifacts are loaded.
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/health'
+```
+
+**Render:**
 ```bash
 curl https://<your-app>.onrender.com/health
 ```
@@ -137,6 +143,18 @@ Personalized outfit recommendations for a user based on learned user–outfit em
 | `top_k` | int | ❌ | `10` | Max `50` |
 | `exclude_seen` | bool | ❌ | `false` | Skip outfits the user already interacted with |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/recommend' \
+--header 'Content-Type: application/json' \
+--data '{
+    "user_id": 844238,
+    "top_k": 5,
+    "exclude_seen": true
+}'
+```
+
+**Render:**
 ```bash
 curl -X POST https://<your-app>.onrender.com/recommend \
   -H "Content-Type: application/json" \
@@ -182,6 +200,17 @@ Scores how well a set of items work together **and** suggests the top items that
 | `item_ids` | string[] | ✅ | — | 1–8 item IDs |
 | `suggest_top_k` | int | ❌ | `5` | Max `20` |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/suggest-outfit-compatibility' \
+--header 'Content-Type: application/json' \
+--data '{
+    "item_ids": ["2243", "5098", "4258", "18421", "7488"],
+    "suggest_top_k": 5
+}'
+```
+
+**Render:**
 ```bash
 curl -X POST https://<your-app>.onrender.com/suggest-outfit-compatibility \
   -H "Content-Type: application/json" \
@@ -233,6 +262,17 @@ Find outfits most similar to a given outfit using cosine similarity of outfit em
 | `outfit_id` | string | ✅ | — | Must exist in training set |
 | `top_k` | int | ❌ | `10` | Max `50` |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/similar-outfits' \
+--header 'Content-Type: application/json' \
+--data '{
+    "outfit_id": "1277",
+    "top_k": 10
+}'
+```
+
+**Render:**
 ```bash
 curl -X POST https://<your-app>.onrender.com/similar-outfits \
   -H "Content-Type: application/json" \
@@ -275,6 +315,12 @@ Paginated item catalog with optional search and category filter.
 | `search` | string | — | Case-insensitive substring match on `title` |
 | `category` | int | — | Filter by category ID |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/list-items?page=1&limit=20&search=&category='
+```
+
+**Render:**
 ```bash
 # All items, page 1
 curl "https://<your-app>.onrender.com/list-items?page=1&limit=20"
@@ -308,6 +354,12 @@ Outfit interaction history for a specific user.
 | `page` | int | ❌ | `1` |
 | `limit` | int | ❌ | `20` (max `100`) |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/list-user-histories?user_id=844126&page=1&limit=20'
+```
+
+**Render:**
 ```bash
 curl "https://<your-app>.onrender.com/list-user-histories?user_id=844126&page=1&limit=10"
 ```
@@ -342,6 +394,12 @@ Paginated list of all users sorted by interaction count (useful for FE dropdowns
 | `page` | int | `1` | |
 | `limit` | int | `50` | Max `200` |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/list-users?page=1&limit=20'
+```
+
+**Render:**
 ```bash
 curl "https://<your-app>.onrender.com/list-users?page=1&limit=50"
 ```
@@ -370,6 +428,12 @@ Paginated list of all outfits with their items enriched.
 | `page` | int | `1` | |
 | `limit` | int | `20` | Max `100` |
 
+**Localhost:**
+```bash
+curl --location 'http://localhost:5000/list-outfits?page=1&limit=20'
+```
+
+**Render:**
 ```bash
 curl "https://<your-app>.onrender.com/list-outfits?page=1&limit=10"
 ```
