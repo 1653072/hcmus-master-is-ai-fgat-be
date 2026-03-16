@@ -1,0 +1,13 @@
+# Web framework
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# Production WSGI server (used by Render)
+gunicorn>=21.2.0
+
+# ML inference (CPU-only — no torchvision/transformers needed at serving time)
+torch>=2.0.0
+
+# Data handling
+pandas>=2.0.0
+numpy>=1.24.0

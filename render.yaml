@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: hfgat-backend-v1
+    env: python
+    region: singapore          # closest to Vietnam; change to oregon/frankfurt as needed
+    plan: starter              # free tier on Render
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
