@@ -106,6 +106,14 @@ def load_artifacts() -> Dict:
     item_sub_path = DATA_DIR / "item_sub.csv"
     if item_sub_path.exists():
         item_df = pd.read_csv(item_sub_path, dtype={"item_id": str})
+        # Drop duplicate item_ids — keep the last occurrence so that if a
+        # CSV has multiple translations for the same item the newest row wins.
+        n_before = len(item_df)
+        item_df = item_df.drop_duplicates(subset="item_id", keep="last").reset_index(drop=True)
+        if len(item_df) < n_before:
+            logger.warning(
+                "Dropped %d duplicate item_id rows from item_sub.csv.", n_before - len(item_df)
+            )
         # Build lookup dict: item_id_str → {category, image_url, title}
         item_meta: Dict[str, dict] = item_df.set_index("item_id").to_dict(orient="index")
         logger.info("Item catalog loaded: %d items.", len(item_df))
